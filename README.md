@@ -1,7 +1,9 @@
 # Trabalho01CG
 
 1. Karla Aparecida Justen
-1. Evandro Sperfeld Coan
+1. Hugo Vincent
+
+Obs.: Evandro Sperfeld Coan contribuiu até a etapa 5 deste trabalho.
 
 Trabalho de Computação Gráfica - UFSC - 2018.2
 
