@@ -1,0 +1,172 @@
+
+@startuml
+  skinparam defaultFontName Consolas
+  skinparam nodesep 20
+  skinparam ranksep 50
+
+  Axes *-- Axe
+  AddObject  *--  Facade                 : facade&
+  AddTransformation  *--  Facade         : facade&
+  AddTransformation *-- Transformation: transformation
+
+  DisplayFile "1"  *-down- "*" DrawableObject
+
+  Facade *-left- DrawingArea            : _drawingArea
+  Facade *-down- ViewWindow             : _viewWindow
+  Facade *-- World                      : _world
+
+  World <.right. ViewWindow : observe world\n object creation
+  DrawingArea <.. ViewWindow : observe drawing area size update
+  ViewWindow <.. World : observe window\n coordinates update
+
+  Line    <|-up- DrawableObject
+  Point   <|-up- DrawableObject
+  Polygon <|-up- DrawableObject
+
+  MainWindow *-- Facade                  : facade
+  MainWindow *-left- AddObject          : addObject
+  MainWindow *-right- AddTransformation : addTransformation
+
+  Transformation "1" *-- "*" TransformationData: transformations
+  TransformationData *-- TransformationType: type
+  TransformationData *-- TransformationPoint: point
+
+  ViewWindow *-- Axes
+  ' ViewWindow -right[hidden]> World
+
+  World *-- DisplayFile : points\n lines\n polygons
+
+  class AddObject {
+    Gtk::Grid       point_grid
+    Gtk::Grid       line_grid
+    Gtk::Grid       polygn_grid
+    Gtk::Window&    getWindow()
+    std::list<int*> polygon_coord_list
+  }
+
+  class AddTransformation {
+    Gtk::Grid rotation_grid
+    Gtk::Grid scaling_grid
+    Gtk::Grid translation_grid
+    Gtk::Grid coodinate_input_grid
+    Gtk::Box& getBox()
+  }
+
+  class Axe {
+    Coordinate& a
+    Coordinate& b
+  }
+
+  class Axes {
+    Axe x1
+    Axe x2
+    Axe y1
+    Axe y2
+    Array<4, Coordinate*> _clippingWindowCoordinates
+  }
+
+  class DisplayFile {
+    ViewWindow& _displayFile
+    std::map<string, DrawableObject*>
+    std::list<std::string>     objectNames()
+    std::list<DrawableObject*> getObjects()
+    DrawableObject*   getObjectByName(std::string name)
+    bool              isObjectOnByName(std::string name)
+    void            addObject(DrawableObject* object)
+    void            removeObject(DrawableObject* object)
+    void            removeObjectByName(std::string name)
+    void apply(std::string object_name, Transformation&)
+  }
+
+  class DrawableObject {
+    std::string  getName()
+    void         addLine()
+    void         addPoint()
+    void         addPolygon()
+    void         apply(Transformation&)
+    list<Coordinate*>& worldCoordinates()
+    list<Coordinate*>& windowCoordinates()
+    list<Coordinate*>& clippingCoordinates()
+  }
+
+  class DrawingArea {
+    bool _isCentered
+    const ViewWindow& _viewWindow
+    const DisplayFile& _displayFile
+    UpdateViewPortSize _updateViewPortSize
+    void draw_xy_axes()
+    bool on_draw(Cairo::Context>&) override
+    void on_my_size_allocate(Gtk::Allocation&)
+  }
+
+  class Facade {
+    UpdateDropdownList _updateDropdownList
+  }
+
+  class Line {
+    Line(Coordinate*, Coordinate*)
+  }
+
+  class Point {
+    Point(Coordinate*)
+  }
+
+  class Polygon {
+    Polygon(list<Coordinate*>)
+  }
+
+  class MainWindow {
+    Gtk::Box     main_box
+    Gtk::Box     left_box
+    Gtk::Frame   left_frame
+    Gtk::Frame   right_frame
+    Gtk::Window& getWindow()
+  }
+
+  class TransformationPoint {
+    enum ON_WORLD_CENTER
+    enum ON_ITS_OWN_CENTER
+    enum ON_GIVEN_COORDINATE
+  }
+
+  class Transformation {
+    MatrixForm _transformation
+    Coordinate apply(Coordinate&)
+    void set_geometric_center(Coordinate&)
+  }
+
+  class TransformationData {
+    MatrixForm  matrix
+    Coordinate  center
+    std::string name
+  }
+
+  class TransformationType {
+    enum SCALING
+    enum ROTATION
+    enum TRANSLATION
+  }
+
+  class ViewWindow {
+    big_double xVpMin
+    big_double yVpMin
+    big_double xVpMax
+    big_double yVpMax
+    big_double xWiMin
+    big_double yWiMin
+    big_double xWiMax
+    big_double yWiMax
+    ChangedSignal _viewWindowObservers
+    ChangedConnection addObserver(...)
+    void move(Coordinate moves)
+    void zoom(Coordinate factors)
+    void updateWindowSize(int, int)
+  }
+
+  class World {
+    void addPoint(std::string name, int, int)
+    void addLine(std::string name, int, int, int, int)
+    void addPolygon(std::string name, std::list<int>)
+  }
+
+@enduml
