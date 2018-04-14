@@ -5,7 +5,7 @@
 
 Obs.: Evandro Sperfeld Coan contribuiu até a etapa 5 deste trabalho.
 
-Trabalho de Computação Gráfica - UFSC - 2018.2
+Trabalho de Computação Gráfica - UFSC - 2018.1
 
 
 ### Download
