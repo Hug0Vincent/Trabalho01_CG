@@ -7,6 +7,7 @@
 #include "point.h"
 #include "polygon.h"
 #include "beziercurve.h"
+#include "bspline.h"
 
 #include "displayfile.h"
 #include "subject_controller.h"
@@ -22,6 +23,9 @@ public:
       Coordinate _borderColor, LineClippingType type=LineClippingType::LIANG_BARSKY);
 
   void addPolygon(const std::string name, const std::vector<big_double>, Coordinate _borderColor, Coordinate _fillingColor);
+
+  void addCurveBSpline(const std::string name, const std::vector<Coordinate>, Coordinate _borderColor);
+  std::list<Coordinate*> fwdDiff(int n, Coordinate point);
 
   void addCurveBezier(const std::string name, const std::vector<std::pair<Coordinate, Coordinate>>, Coordinate _borderColor);
   std::list<Coordinate*> blendCurveBezier(std::pair<Coordinate, Coordinate>, std::pair<Coordinate, Coordinate>);
@@ -51,9 +55,32 @@ protected:
   DisplayFile _displayFile;
   UpdateObjectCoordinates _updateObjectCoordinates;
 
+  void setBSplineParameters(Coordinate p1, Coordinate p2, Coordinate p3, Coordinate p4);
+  
+
   // DisplayFile _lines;
   // DisplayFile _points;
   // DisplayFile _polygons;
+
+  private:
+
+    Coordinate f0;
+    Coordinate delta_f0;
+    Coordinate delta_2f0;
+    Coordinate delta_3f0;
+
+    Coordinate a;
+    Coordinate b;
+    Coordinate c;
+    Coordinate d;
+
+     double M_BS[4][4] = {
+                        {-1.0/6.0, 1.0/2.0, -1.0/2.0, 1.0/6.0},
+                        {1.0/2.0  ,-1.0 , 1.0/2.0, 0.0 },
+                        {-1.0/2.0, 0.0, 1.0/2.0, 0.0},
+                        {1.0/6.0, 2.0/3.0, 1.0/6.0, 0.0}
+                };
+
 };
 
 #endif // GTKMM_APP_WORLD

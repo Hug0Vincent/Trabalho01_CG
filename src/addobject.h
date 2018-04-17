@@ -32,12 +32,14 @@ private:
 
   std::string new_object_name;
   std::vector<big_double> polygon_coord_list;
+  std::vector<Coordinate> bspline_coord_list;
 
   Gtk::Grid color_grid;
   Gtk::Grid line_grid;
   Gtk::Grid point_grid;
   Gtk::Grid polygn_grid;
   Gtk::Grid curve_grid;
+  Gtk::Grid bspline_grid;
 
   Gtk::Button button_close;
   Gtk::Button button_save_line;
@@ -46,6 +48,8 @@ private:
   Gtk::Button button_add_coordenate;
   Gtk::Button button_add_vector;
   Gtk::Button button_save_curve;
+  Gtk::Button button_add_vector_bspline;
+  Gtk::Button button_save_bspline;
 
   Gtk::Entry insert_border_color_field_r;
   Gtk::Entry insert_border_color_field_g;
@@ -63,6 +67,10 @@ private:
   Gtk::Entry line_y1_field;
   Gtk::Entry line_y2_field;
   Gtk::Entry line_x2_field;
+
+  Gtk::Entry bspline_name_field;
+  Gtk::Entry bspline_y_field;
+  Gtk::Entry bspline_x_field;
 
   Gtk::Entry polygon_name_field;
   Gtk::Entry wire_y_field;
@@ -88,6 +96,10 @@ private:
   Gtk::Label polygon_x_label;
   Gtk::Label polygon_y_label;
 
+  Gtk::Label bspline_x_label;
+  Gtk::Label bspline_y_label;
+  Gtk::Label info_bspline_label;
+
   Gtk::Label curve_x1_label;
   Gtk::Label curve_y1_label;
   Gtk::Label curve_x2_label;
@@ -109,12 +121,14 @@ private:
   void on_button_save_point();
   void on_button_save_line();
   void on_button_save_polygon();
+  void on_button_save_bspline();
 
   void on_button_add_coordinate();
   void _close_updating_list();
 
 
   void on_button_add_vector();
+  void on_button_add_vector_bspline();
   void on_button_save_curve();
 
 

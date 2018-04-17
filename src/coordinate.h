@@ -121,6 +121,16 @@ struct Coordinate : public Array<MATRICES_DIMENSION, big_double>
       return new_value;
   }
 
+    Coordinate operator*(const big_double& data)
+  {
+	  Coordinate new_value{*this};
+      for( unsigned int index = 0; index < MATRICES_DIMENSION; index++ )
+      {
+    	  new_value._data[index] *= data;
+      }
+      return new_value;
+  }
+
   Coordinate operator-(const Array& object) { Coordinate new_value{*this};
       for( unsigned int index = 0; index < MATRICES_DIMENSION; index++ )
       { new_value._data[index] -= object._data[index]; } return new_value; }

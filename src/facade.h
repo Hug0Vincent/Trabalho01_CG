@@ -39,6 +39,13 @@ public:
         Coordinate _borderColor=_default_coordinate_value_parameter)
     { this->_world.addCurveBezier(name, points, _borderColor); }
 
+  void addBSpline(std::string name, std::vector<Coordinate> points,
+        Coordinate _borderColor=_default_coordinate_value_parameter)
+    {
+      this->_world.addCurveBSpline(name, points, _borderColor); 
+    }
+
+
   void removeObject(std::string name) { this->_world.removeObject(name); }
 
   void move(Coordinate moves)        { this->_viewWindow.move(moves);        }

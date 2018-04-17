@@ -65,6 +65,35 @@ void World::addCurveBezier(std::string name, std::vector<std::pair<Coordinate, C
   this->_updateObjectCoordinates(curve);
 }
 
+void World::addCurveBSpline(std::string name, std::vector<Coordinate> bspline_point_list, Coordinate _borderColor)
+{
+  std::list<Coordinate*> cord_list;
+
+  for(int v = 0; v< bspline_point_list.size() - 3 ; v++){
+	  
+    this->setBSplineParameters(bspline_point_list[v], bspline_point_list[v+1], bspline_point_list[v+2],bspline_point_list[v+3]);
+
+    std::list<Coordinate*> more_cord_list = fwdDiff(1/DELTA_BSPLINE, this->f0);
+
+    if(v==0)cord_list.push_back(new Coordinate(this->f0));
+
+
+    std::list<Coordinate*>::iterator it;
+    it = cord_list.end();
+
+    cord_list.insert(it, more_cord_list.begin(), more_cord_list.end());
+    more_cord_list.clear();
+
+  }
+  
+
+  Bspline* bspline = new Bspline(name, cord_list, _borderColor);
+
+  this->_displayFile.addObject(bspline);
+  this->_updateObjectCoordinates(bspline);
+}
+
+
 std::list<Coordinate*> World::blendCurveBezier(std::pair<Coordinate, Coordinate> vector1, std::pair<Coordinate, Coordinate> vector2)
 {
   std::list<Coordinate*> cord_list;
@@ -172,4 +201,81 @@ void World::draw_xy_axes()
   LOG(4, "Drawing the X T axes as world objects.");
   this->addLine("Y Axe", 0, -WORLD_AXES_SIZE, 0, WORLD_AXES_SIZE, Coordinate(0.741176, 0.717647, 0.419608));
   this->addLine("X Axe", -WORLD_AXES_SIZE, 0, WORLD_AXES_SIZE, 0, Coordinate(0.741176, 0.717647, 0.419608));
+}
+
+void World::setBSplineParameters(Coordinate p1, Coordinate p2, Coordinate p3, Coordinate p4){
+
+  this->a = p1*M_BS[0][0] + p2*M_BS[0][1] + p3*M_BS[0][2] + p4*M_BS[0][3];
+  this->b = p1*M_BS[1][0] + p2*M_BS[1][1] + p3*M_BS[1][2] + p4*M_BS[1][3];
+  this->c = p1*M_BS[2][0] + p2*M_BS[2][1] + p3*M_BS[2][2] + p4*M_BS[2][3];
+  this->d = p1*M_BS[3][0] + p2*M_BS[3][1] + p3*M_BS[3][2] + p4*M_BS[3][3];
+
+  this->f0 = this->d;
+  this->delta_f0 = (a*(pow(DELTA_BSPLINE,3))) + (b*(pow(DELTA_BSPLINE,2))) + (c*DELTA_BSPLINE);
+  this->delta_2f0 = (a*6*pow(DELTA_BSPLINE,3)) + (b*2*pow(DELTA_BSPLINE,2)); 
+  this->delta_3f0 = a*6*pow(DELTA_BSPLINE,3);
+
+  LOG(4, "F0 -----------: `%s`", this->f0);
+  LOG(4, "delta_f0 -----------: `%s`", this->delta_f0);
+  LOG(4, "delta_2f0 -----------: `%s`", this->delta_2f0);
+  LOG(4, "delta_3f0 -----------: `%s`", this->delta_3f0);
+  
+
+}
+
+std::list<Coordinate*> World::fwdDiff(int n, Coordinate point)
+{
+  
+  std::list<Coordinate*> cord_list;
+  cord_list.clear();
+
+    double x = point[0];
+    double y = point[1];
+    double z = point[2];
+
+    double delta_x = this->delta_f0[0];
+    double delta_2x = this->delta_2f0[0];
+    double delta_3x = this->delta_3f0[0];
+
+    double delta_y = this->delta_f0[1];
+    double delta_2y = this->delta_2f0[1];
+    double delta_3y = this->delta_3f0[1];
+
+    double delta_z = this->delta_f0[2];
+    double delta_2z = this->delta_2f0[2];
+    double delta_3z = this->delta_3f0[2];
+
+
+    double x_old, y_old, z_old;
+    x_old = x;
+    y_old = y;
+    z_old = z;
+
+    for(int i = 0; i < n ; i++){
+
+        //op on x 
+        x += delta_x;
+        delta_x += delta_2x;
+        delta_2x += delta_3x;
+
+        //op on y 
+        y += delta_y;
+        delta_y += delta_2y;
+        delta_2y += delta_3y;
+
+        //op on z
+        z += delta_z;
+        delta_z += delta_2z;
+        delta_2z += delta_3z;
+
+        Coordinate intermediate(x,y,z);
+        cord_list.push_back(new Coordinate(intermediate));
+
+        x_old = x;
+        y_old = y;
+        z_old = z;
+    }
+
+    return cord_list;
+
 }
