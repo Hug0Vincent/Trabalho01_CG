@@ -229,3 +229,59 @@ void Polygon::_sutherlandHodgmanClipBottom(const Axes& axes, std::vector<Coordin
     }
   }
 }
+
+void Polygon::draw(const Cairo::RefPtr<Cairo::Context>& cairo_context, const ViewWindow *viewwindow) const{
+
+
+   LOG(4, "Draw Polygon");
+   if( !this->_isDrawable )
+    {
+      LOG(8, "Skip objects which were completely clipped out of the Window");
+    }else{
+
+    // auto coordinates = object->windowCoordinates();
+    auto coordinates = this->clippingCoordinates();
+    int coordinates_count = coordinates.size();
+
+    if (coordinates_count == 0)
+    {
+      LOG(1, "ERROR: The object `%s` has no coordinates.", *this);
+    }
+
+    auto border = this->borderColor();
+    auto filling = this->fillingColor();
+
+    LOG(8, "Set object border and filing colors: %s %s", border, filling);
+    cairo_context->set_source_rgb(border.x, border.y, border.z);
+
+    LOG(8, "object coordinates: %s", *this);
+    auto firstCoordinate = viewwindow->convertCoordinateToViewPort(**(coordinates.begin()));
+    cairo_context->move_to(firstCoordinate.x, firstCoordinate.y);
+
+    if( coordinates_count == 1 )
+    {
+      cairo_context->line_to(firstCoordinate.x+1, firstCoordinate.y+1);
+    }
+    else
+    {
+      for( auto coordinate : coordinates )
+      {
+        Coordinate coordinateConverted = viewwindow->convertCoordinateToViewPort(*coordinate);
+        cairo_context->line_to(coordinateConverted.x, coordinateConverted.y);
+      }
+
+      // https://developer.gnome.org/gtkmm-tutorial/stable/sec-cairo-drawing-arcs.html.en
+      // LOG(8, "Line back to start point, closing the polygon")
+      cairo_context->save();
+      cairo_context->close_path();
+      cairo_context->set_source_rgb(filling.x, filling.y, filling.z);
+      cairo_context->fill_preserve();
+      cairo_context->restore();  // back to opaque black
+    }
+
+    cairo_context->stroke(); // outline it
+   
+    }
+
+
+ }

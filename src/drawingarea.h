@@ -4,6 +4,7 @@
 #include <list>
 #include <string>
 #include <iomanip>
+#include <iostream>
 
 #include <gtkmm/drawingarea.h>
 #include <gdkmm/rgba.h>
