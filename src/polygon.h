@@ -3,6 +3,7 @@
 
 #include "drawableobject.h"
 #include "coordinate.h"
+#include "viewwindow.h"
 
 class Polygon : public DrawableObject
 {
@@ -11,6 +12,7 @@ public:
   ~Polygon();
 
   virtual void updateClippingCoordinates(const Axes&);
+  virtual void draw(const Cairo::RefPtr<Cairo::Context>& cairo_context, const ViewWindow *viewwindow) const;
 
 protected:
   /**

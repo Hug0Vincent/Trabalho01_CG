@@ -13,12 +13,18 @@
  */
 #include <list>
 #include <string>
+#include <iostream>
+#include <iomanip>
+
+#include <cairomm/context.h>
+
 
 #include "debugger.h"
 
 #include "axes.h"
 #include "coordinate.h"
 #include "transformation.h"
+#include "viewwindow.h"
 
 class DrawableObject
 {
@@ -36,6 +42,8 @@ public:
   void apply(Transformation&);
   bool isDrawable() const { return this->_isDrawable;   }
 
+  
+
   const Coordinate& borderColor()  const { return this->_borderColor;  }
   const Coordinate& fillingColor() const { return this->_fillingColor; }
 
@@ -45,6 +53,7 @@ public:
    */
   virtual void updateWindowCoordinates(const Transformation&);
   virtual void updateClippingCoordinates(const Axes&);
+  virtual void draw(const Cairo::RefPtr<Cairo::Context>& cairo_context, const ViewWindow *viewwindow) const;
 
   /**
    * Making operator<< virtual?
@@ -52,6 +61,7 @@ public:
    */
   friend std::ostream& operator<<(std::ostream &output, const DrawableObject &object);
   virtual void printMyself(std::ostream &output) const;
+
 
 protected:
   DrawableObject(std::string name, std::list<Coordinate*> _worldCoordinates);
