@@ -8,6 +8,7 @@
 #include "polygon.h"
 #include "beziercurve.h"
 #include "bspline.h"
+#include "object3D.h"
 
 #include "displayfile.h"
 #include "subject_controller.h"
@@ -29,6 +30,8 @@ public:
 
   void addCurveBezier(const std::string name, const std::vector<std::pair<Coordinate, Coordinate>>, Coordinate _borderColor);
   std::list<Coordinate*> blendCurveBezier(std::pair<Coordinate, Coordinate>, std::pair<Coordinate, Coordinate>);
+
+  void addObject3D(const std::string name, const std::list<Coordinate>, Coordinate _borderColor, Coordinate _fillingColor);
 
   void removeObject(const std::string name);
 

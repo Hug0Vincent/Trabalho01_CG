@@ -9,6 +9,7 @@ CPP_SRCS += \
 ../src/addobject.cpp \
 ../src/addtransformation.cpp \
 ../src/beziercurve.cpp \
+../src/bspline.cpp \
 ../src/coordinate.cpp \
 ../src/debugger.cpp \
 ../src/displayfile.cpp \
@@ -21,7 +22,6 @@ CPP_SRCS += \
 ../src/polygon.cpp \
 ../src/transformation.cpp \
 ../src/transformationdata.cpp \
-../src/vector.cpp \
 ../src/viewwindow.cpp \
 ../src/world.cpp 
 
@@ -31,6 +31,7 @@ OBJS += \
 ./src/addobject.o \
 ./src/addtransformation.o \
 ./src/beziercurve.o \
+./src/bspline.o \
 ./src/coordinate.o \
 ./src/debugger.o \
 ./src/displayfile.o \
@@ -43,7 +44,6 @@ OBJS += \
 ./src/polygon.o \
 ./src/transformation.o \
 ./src/transformationdata.o \
-./src/vector.o \
 ./src/viewwindow.o \
 ./src/world.o 
 
@@ -53,6 +53,7 @@ CPP_DEPS += \
 ./src/addobject.d \
 ./src/addtransformation.d \
 ./src/beziercurve.d \
+./src/bspline.d \
 ./src/coordinate.d \
 ./src/debugger.d \
 ./src/displayfile.d \
@@ -65,7 +66,6 @@ CPP_DEPS += \
 ./src/polygon.d \
 ./src/transformation.d \
 ./src/transformationdata.d \
-./src/vector.d \
 ./src/viewwindow.d \
 ./src/world.d 
 

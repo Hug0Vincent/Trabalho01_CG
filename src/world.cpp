@@ -126,6 +126,24 @@ std::list<Coordinate*> World::blendCurveBezier(std::pair<Coordinate, Coordinate>
   return cord_list;
 }
 
+void World::addObject3D(std::string name, std::list<Coordinate> object3d_coord_list, Coordinate _borderColor, Coordinate  _fillingColor)
+{
+	std::list<Coordinate*> coordinates;
+
+
+	while( !object3d_coord_list.empty())
+	{
+		coordinates.push_back( new Coordinate( *object3d_coord_list.begin()));
+		object3d_coord_list.pop_front();
+	}
+
+	object3D* obj3d = new object3D(name, coordinates, _borderColor, _fillingColor);
+
+	this->_displayFile.addObject(obj3d);
+	this->_updateObjectCoordinates(obj3d);
+}
+
+
 
 void World::removeObject(std::string name)
 {

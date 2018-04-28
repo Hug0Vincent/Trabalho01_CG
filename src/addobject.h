@@ -33,6 +33,7 @@ private:
   std::string new_object_name;
   std::vector<big_double> polygon_coord_list;
   std::vector<Coordinate> bspline_coord_list;
+  std::list<Coordinate> object3d_coord_list;
 
   Gtk::Grid color_grid;
   Gtk::Grid line_grid;
@@ -40,6 +41,7 @@ private:
   Gtk::Grid polygn_grid;
   Gtk::Grid curve_grid;
   Gtk::Grid bspline_grid;
+  Gtk::Grid object3d_grid;
 
   Gtk::Button button_close;
   Gtk::Button button_save_line;
@@ -50,6 +52,8 @@ private:
   Gtk::Button button_save_curve;
   Gtk::Button button_add_vector_bspline;
   Gtk::Button button_save_bspline;
+  Gtk::Button button_add_line3d;
+  Gtk::Button button_save_object3d;
 
   Gtk::Entry insert_border_color_field_r;
   Gtk::Entry insert_border_color_field_g;
@@ -82,6 +86,14 @@ private:
   Gtk::Entry curve_x2_field;
   Gtk::Entry curve_y2_field;
 
+  Gtk::Entry object3d_name_field;
+  Gtk::Entry object3d_x1_field;
+  Gtk::Entry object3d_y1_field;
+  Gtk::Entry object3d_x2_field;
+  Gtk::Entry object3d_y2_field;
+  Gtk::Entry object3d_z1_field;
+  Gtk::Entry object3d_z2_field;
+
   Gtk::Label insert_border_color_label;
   Gtk::Label insert_filling_color_label;
   Gtk::Label insert_a_coordinate_label;
@@ -106,6 +118,13 @@ private:
   Gtk::Label curve_y2_label;
   Gtk::Label info_curve_label;
 
+  Gtk::Label object3d_x1_label;
+  Gtk::Label object3d_y1_label;
+  Gtk::Label object3d_x2_label;
+  Gtk::Label object3d_y2_label;
+  Gtk::Label object3d_z1_label;
+  Gtk::Label object3d_z2_label;
+  Gtk::Label info_object3d_label;
 
   Gtk::RadioButton liang_barsky_radiobutton;
   Gtk::RadioButton cohen_sutheland_radiobutton;
@@ -117,11 +136,14 @@ private:
   void on_liang_radiobutton();
   void on_cohen_radiobutton();
 
+  void on_button_add_line3d();
+
   void on_button_close();
   void on_button_save_point();
   void on_button_save_line();
   void on_button_save_polygon();
   void on_button_save_bspline();
+  void on_button_save_object3d();
 
   void on_button_add_coordinate();
   void _close_updating_list();

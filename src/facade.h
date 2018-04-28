@@ -45,6 +45,10 @@ public:
       this->_world.addCurveBSpline(name, points, _borderColor); 
     }
 
+  void addObject3D(std::string name, std::list<Coordinate> points,
+        Coordinate _borderColor=_default_coordinate_value_parameter,
+        Coordinate _fillingColor=_default_coordinate_value_parameter)
+    { this->_world.addObject3D(name, points, _borderColor, _fillingColor); }
 
   void removeObject(std::string name) { this->_world.removeObject(name); }
 
