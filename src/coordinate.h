@@ -55,7 +55,7 @@ struct Coordinate : public Array<MATRICES_DIMENSION, big_double>
   {
   }
 
-  Coordinate(big_double x, big_double y, big_double z = 1.0) :
+  Coordinate(big_double x, big_double y, big_double z) :
       Array{x, y, z},
       x{this->_data[0]},
       y{this->_data[1]},
@@ -63,6 +63,13 @@ struct Coordinate : public Array<MATRICES_DIMENSION, big_double>
   {
   }
 
+  Coordinate(big_double x, big_double y) :
+        Array{x, y, 1},
+        x{this->_data[0]},
+        y{this->_data[1]},
+        z{this->_data[2]}
+    {
+    }
   Coordinate(const Coordinate& object) :
       Array{object},
       x{this->_data[0]},

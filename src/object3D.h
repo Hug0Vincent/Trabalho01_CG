@@ -18,6 +18,7 @@ class object3D : public DrawableObject {
 	  object3D(std::string name, std::list<Coordinate*> _worldCoordinates, Coordinate _borderColor, Coordinate _fillingColor);
 	  ~object3D();
 	  virtual void updateClippingCoordinates(const Axes&);
+	  virtual void updateWindowCoordinates(const Transformation&);
 
 	protected:
 	  /**

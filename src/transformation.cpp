@@ -225,7 +225,7 @@ void Transformation::_scaling_on_coordinate(const TransformationData &data, cons
   LOG(4, "Move back to its origin");
   move_to_center[2][0] = center.x;
   move_to_center[2][1] = center.y;
-  move_to_center[2][2] = 1;
+  move_to_center[2][2] = center.z;
 
   this->_transformation.multiply(move_to_center);
 }

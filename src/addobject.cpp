@@ -372,8 +372,8 @@ void AddObject::on_button_add_vector(){
 	int x2_cord = atoi(x2_string.c_str());
 	int y2_cord = atoi(y2_string.c_str());
 
-	Coordinate begin(x1_cord, y1_cord);
-	Coordinate end(x2_cord, y2_cord);
+	Coordinate begin(x1_cord, y1_cord, 1);
+	Coordinate end(x2_cord, y2_cord, 1);
 	curve_vector_list.push_back(std::make_pair(begin, end));
 
 	curve_x1_field.set_text("");
@@ -468,7 +468,7 @@ void AddObject::on_button_add_vector_bspline(){
   int y_coord = atoi(y_string.c_str());
   // int z_coord = atoi(z_string.c_str());
 
-  Coordinate p(x_coord, y_coord);
+  Coordinate p(x_coord, y_coord, 1);
 
   bspline_coord_list.push_back(p);
 

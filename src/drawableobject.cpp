@@ -1,7 +1,7 @@
 #include "drawableobject.h"
 
 DrawableObject::DrawableObject(std::string name, std::list<Coordinate*> _worldCoordinates) :
-      DrawableObject(name, _worldCoordinates, Coordinate(0, 0))
+      DrawableObject(name, _worldCoordinates, Coordinate(0, 0, 1))
 {
 }
 

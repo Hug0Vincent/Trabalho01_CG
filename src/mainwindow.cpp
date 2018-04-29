@@ -137,7 +137,7 @@ void MainWindow::setupButtons()
   left_box.add(this->addTransformation.getBox());
 }
 
-void MainWindow::connectButtons()
+void MainWindow::connectButtons() //AKA!
 {
   LOG(4, "Determinando ações quando clicado cada botão;");
   this->objects_list.signal_changed().connect(sigc::mem_fun(*this, &MainWindow::on_objects_list_change));
@@ -201,7 +201,7 @@ void MainWindow::on_button_move_up()
   }
   else
   {
-    this->facade.move(Coordinate(0, move_length));
+    this->facade.move(Coordinate(0, move_length, 1));
   }
 }
 
@@ -215,7 +215,7 @@ void MainWindow::on_button_move_down()
   }
   else
   {
-    this->facade.move(Coordinate(0, -move_length));
+    this->facade.move(Coordinate(0, -move_length, 1));
   }
 }
 
@@ -229,7 +229,7 @@ void MainWindow::on_button_move_left()
   }
   else
   {
-    this->facade.move(Coordinate(-move_length, 0));
+    this->facade.move(Coordinate(-move_length, 0, 1));
   }
 }
 
@@ -243,7 +243,7 @@ void MainWindow::on_button_move_right()
   }
   else
   {
-    this->facade.move(Coordinate(move_length, 0));
+    this->facade.move(Coordinate(move_length, 0, 1));
   }
 }
 
@@ -261,7 +261,7 @@ void MainWindow::on_button_zoom_in()
   }
   else
   {
-    this->facade.zoom(Coordinate(-zoom_scale, -zoom_scale));
+    this->facade.zoom(Coordinate(-zoom_scale, -zoom_scale, 1));
   }
 }
 
@@ -279,7 +279,7 @@ void MainWindow::on_button_zoom_out()
   }
   else
   {
-    this->facade.zoom(Coordinate(zoom_scale, zoom_scale));
+    this->facade.zoom(Coordinate(zoom_scale, zoom_scale, 1));
   }
 }
 

@@ -17,6 +17,22 @@ object3D::~object3D() {
 	// TODO Auto-generated destructor stub
 }
 
+void object3D::updateWindowCoordinates(const Transformation& transformation)
+{
+  LOG(8, "Entering... %s", transformation);
+  Coordinate* new_coordinate;
+
+  auto coordinates = this->worldCoordinates();
+  DrawableObject::destroyList(this->_windowCoordinates);
+
+  for(auto coordinate : coordinates)
+  {
+    new_coordinate = new Coordinate(*coordinate);
+    transformation.apply(*new_coordinate);
+    this->_windowCoordinates.push_back(new_coordinate);
+  }
+}
+
 
 void object3D::updateClippingCoordinates(const Axes& axes)
 {
