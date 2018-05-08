@@ -12,6 +12,8 @@
 #include "coordinate.h"
 
 
+
+
 class object3D : public DrawableObject {
 
 	public:
@@ -20,7 +22,12 @@ class object3D : public DrawableObject {
 	  virtual void updateClippingCoordinates(const Axes&);
 	  virtual void updateWindowCoordinates(const Transformation&);
 
+	  void projecaoEmPerspective(const Coordinate& cop);
+
 	protected:
+
+	Coordinate _cop;
+
 	  /**
 	   * http://www.pracspedia.com/CG/sutherlandhodgman.html
 	   * https://en.wikipedia.org/wiki/Sutherland%E2%80%93Hodgman_algorithm
@@ -28,6 +35,7 @@ class object3D : public DrawableObject {
 	   *
 	   * @return true if the line should be drawn, false if the line should be skipped drawing
 	   */
+
 	  bool _sutherlandHodgmanPolygonClip(const Axes&);
 	  void _sutherlandHodgmanClipLeft(const Axes& axes, std::vector<Coordinate>& input, std::vector<Coordinate>& temporary);
 	  void _sutherlandHodgmanClipRight(const Axes& axes, std::vector<Coordinate>& temporary, std::vector<Coordinate>& clippingResult);

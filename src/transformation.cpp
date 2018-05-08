@@ -31,9 +31,10 @@ const MatrixForm Transformation::_get_translation_matrix(const Coordinate& moves
 {
   return
   {
-    {1      , 0      , 0},
-    {0      , 1      , 0},
-    {moves.x, moves.y, 1}
+    {1      , 0      , 0,     0},
+    {0      , 1      , 0,     0},
+    {0      , 0      , 1,      0},
+    {moves.x, moves.y, moves.z,1}
   };
 }
 
@@ -41,9 +42,21 @@ const MatrixForm Transformation::_get_scaling_matrix(const Coordinate& factors) 
 {
   return
   {
-    {factors.x, 0        , 0},
-    {0        , factors.y, 0},
-    {0        , 0        , 1}
+    {factors.x, 0        , 0,       0},
+    {0        , factors.y, 0,       0},
+    {0        , 0, factors.z,       0},
+    {0        , 0        , 0,       1}
+  };
+}
+
+const MatrixForm Transformation::_get_perspective_matrix(const Coordinate& cop) const
+{
+  return
+  {
+    {1,         0,     (-cop.x/cop.z),       0},
+    {0        , 1,     (-cop.y/cop.z),       0},
+    {0        , 0,     1,                    0},
+    {0        , 0,     (-1/cop.z),           1}
   };
 }
 
@@ -54,9 +67,10 @@ const MatrixForm Transformation::_get_rotation_matrix(const Coordinate& degrees)
   auto cosine  = std::cos(radians);
   return
   {
-    {cosine, -sine  , 0},
-    {sine  ,  cosine, 0},
-    {0     ,       0, 1}
+    {cosine, -sine  , 0,      0},
+    {sine  ,  cosine, 0,      0},
+    {0     ,       0, 1,      0},
+    {0     ,       0, 0,      1},
   };
 }
 
@@ -79,6 +93,13 @@ void Transformation::add_translation(const std::string name, const Coordinate mo
   auto matrix = this->_get_translation_matrix(moves);
   TransformationData transformation{name, matrix, TransformationType::TRANSLATION};
   this->transformations.push_back(transformation);
+}
+
+void Transformation::add_perspective(const std::string name, const Coordinate cop) const
+{
+  auto matrix = this->_get_perspective_matrix(cop);
+  TransformationData transformation{name, matrix, TransformationType::PERSPECTIVE};
+  //this->transformations.push_back(transformation);
 }
 
 void Transformation::set_geometric_center(const Coordinate &center)
@@ -108,6 +129,12 @@ void Transformation::set_geometric_center(const Coordinate &center)
         break;
       }
 
+      case TransformationType::PERSPECTIVE:
+      {
+        this->_set_perspective_data(data, index, center);
+        break;
+      }
+
       default:
       {
         LOG(1, "");
@@ -122,6 +149,19 @@ void Transformation::set_geometric_center(const Coordinate &center)
 }
 
 void Transformation::_set_translation_data(const TransformationData &data, const unsigned int &index, const Coordinate &center)
+{
+  if( index == 0 )
+  {
+    this->_transformation = data.matrix;
+  }
+  else
+  {
+    this->_transformation.multiply(data.matrix);
+  }
+  LOG(4, "_transformation.multiply: %s", this->_transformation);
+}
+
+void Transformation::_set_perspective_data(const TransformationData &data, const unsigned int &index, const Coordinate &center)
 {
   if( index == 0 )
   {
@@ -157,6 +197,8 @@ void Transformation::_set_scaling_data(const TransformationData &data, const uns
       this->_scaling_on_coordinate(data, index, center);
       break;
     }
+
+    
 
     default:
     {
@@ -200,7 +242,7 @@ void Transformation::_scaling_on_its_own_center(const TransformationData &data, 
   LOG(4, "Move back to its origin");
   move_to_center[2][0] = center.x;
   move_to_center[2][1] = center.y;
-  move_to_center[2][2] = 1;
+  move_to_center[2][2] = center.z;
 
   this->_transformation.multiply(move_to_center);
 }
@@ -296,7 +338,7 @@ void Transformation::_rotation_on_its_own_center(const TransformationData &data,
   LOG(4, "Move back to its origin");
   move_to_center[2][0] = center.x;
   move_to_center[2][1] = center.y;
-  move_to_center[2][2] = 1;
+  move_to_center[2][2] = center.z;
 
   this->_transformation.multiply(move_to_center);
 }
@@ -321,7 +363,7 @@ void Transformation::_rotation_on_coordinate(const TransformationData &data, con
   LOG(4, "Move back to its origin");
   move_to_center[2][0] = center.x;
   move_to_center[2][1] = center.y;
-  move_to_center[2][2] = 1;
+  move_to_center[2][2] = center.z;
 
   this->_transformation.multiply(move_to_center);
 }

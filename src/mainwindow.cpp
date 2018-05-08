@@ -201,7 +201,7 @@ void MainWindow::on_button_move_up()
   }
   else
   {
-    this->facade.move(Coordinate(0, move_length, 1));
+    this->facade.move(Coordinate(0, move_length, 0));
   }
 }
 
@@ -215,7 +215,7 @@ void MainWindow::on_button_move_down()
   }
   else
   {
-    this->facade.move(Coordinate(0, -move_length, 1));
+    this->facade.move(Coordinate(0, -move_length, 0));
   }
 }
 
@@ -229,7 +229,7 @@ void MainWindow::on_button_move_left()
   }
   else
   {
-    this->facade.move(Coordinate(-move_length, 0, 1));
+    this->facade.move(Coordinate(-move_length, 0, 0));
   }
 }
 
@@ -243,7 +243,7 @@ void MainWindow::on_button_move_right()
   }
   else
   {
-    this->facade.move(Coordinate(move_length, 0, 1));
+    this->facade.move(Coordinate(move_length, 0, 0));
   }
 }
 
@@ -261,7 +261,7 @@ void MainWindow::on_button_zoom_in()
   }
   else
   {
-    this->facade.zoom(Coordinate(-zoom_scale, -zoom_scale, 1));
+    this->facade.zoom(Coordinate(-zoom_scale, -zoom_scale, -zoom_scale));
   }
 }
 
@@ -279,7 +279,7 @@ void MainWindow::on_button_zoom_out()
   }
   else
   {
-    this->facade.zoom(Coordinate(zoom_scale, zoom_scale, 1));
+    this->facade.zoom(Coordinate(zoom_scale, zoom_scale, zoom_scale));
   }
 }
 

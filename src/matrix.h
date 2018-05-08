@@ -16,7 +16,7 @@
  * error: incompatible types in assignment of 'long int (*)[4]' to 'long int [4][4]'
  * https://stackoverflow.com/questions/49312484/error-incompatible-types-in-assignment-of-long-int-4-to-long-int
  */
-template <unsigned int matrix_width=3, unsigned int matrix_height=3, typename matrix_datatype=long int>
+template <unsigned int matrix_width=4, unsigned int matrix_height=4, typename matrix_datatype=long int>
 struct Matrix : public Array< matrix_height, Array< matrix_width, matrix_datatype > >
 {
   Matrix()

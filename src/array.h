@@ -49,7 +49,7 @@ struct Array
     }
     else
     {
-      // std::cerr << "Array(new_values), " << "data_size: " << data_size << ", " << "array_width: " << array_width << std::endl;
+      //std::cerr << "Array(new_values), " << "data_size: " << data_size << ", " << "array_width: " << array_width << std::endl;
       assert(data_size == array_width);
 
       for( auto column : new_values )

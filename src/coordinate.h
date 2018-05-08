@@ -38,43 +38,49 @@ struct Coordinate : public Array<MATRICES_DIMENSION, big_double>
   big_double& x;
   big_double& y;
   big_double& z;
+  big_double& w;
 
   Coordinate() :
       Array{},
       x{this->_data[0]},
       y{this->_data[1]},
-      z{this->_data[2]}
+      z{this->_data[2]},
+      w{this->_data[3]}
   {
   }
 
   Coordinate(big_double initial) :
-      Array{initial},
+      Array{initial,initial,initial,1},
       x{this->_data[0]},
       y{this->_data[1]},
-      z{this->_data[2]}
+      z{this->_data[2]},
+      w{this->_data[3]}
   {
   }
 
   Coordinate(big_double x, big_double y, big_double z) :
-      Array{x, y, z},
+      Array{x, y, z, 1},
       x{this->_data[0]},
       y{this->_data[1]},
-      z{this->_data[2]}
+      z{this->_data[2]},
+      w{this->_data[3]}
   {
   }
 
   Coordinate(big_double x, big_double y) :
-        Array{x, y, 1},
+        Array{x, y, 0, 1},
         x{this->_data[0]},
         y{this->_data[1]},
-        z{this->_data[2]}
+        z{this->_data[2]},
+        w{this->_data[3]}
     {
     }
   Coordinate(const Coordinate& object) :
       Array{object},
       x{this->_data[0]},
       y{this->_data[1]},
-      z{this->_data[2]}
+      z{this->_data[2]},
+      w{this->_data[3]}
   {
   }
 
@@ -84,6 +90,8 @@ struct Coordinate : public Array<MATRICES_DIMENSION, big_double>
     this->x = this->_data[0];
     this->y = this->_data[1];
     this->z = this->_data[2];
+    this->z = this->_data[3];
+
     return *this;
   }
 

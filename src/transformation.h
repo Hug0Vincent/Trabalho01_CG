@@ -33,6 +33,7 @@ public:
    * @param point   this is a optional value, only required when using TransformationPoint::ON_GIVEN_COORDINATE
    */
   void add_translation(const std::string name, const Coordinate movement);
+  void add_perspective(const std::string name, const Coordinate cop) const;
   void add_scaling(const std::string name, const Coordinate scale);
   void add_rotation(const std::string name,
                     const Coordinate degrees,
@@ -86,10 +87,12 @@ protected:
   const MatrixForm _get_translation_matrix(const Coordinate& moves) const;
   const MatrixForm _get_scaling_matrix(const Coordinate& factors) const;
   const MatrixForm _get_rotation_matrix(const Coordinate& degrees) const;
+  const MatrixForm _get_perspective_matrix(const Coordinate& cop) const;
 
   void _set_translation_data(const TransformationData&, const unsigned int &index, const Coordinate &center);
   void _set_scaling_data    (const TransformationData&, const unsigned int &index, const Coordinate &center);
   void _set_rotation_data   (const TransformationData&, const unsigned int &index, const Coordinate &center);
+  void _set_perspective_data   (const TransformationData&, const unsigned int &index, const Coordinate &center);
 
   void _scaling_on_coordinate    (const TransformationData&, const unsigned int &index, const Coordinate &center);
   void _scaling_on_world_center  (const TransformationData&, const unsigned int &index, const Coordinate &center);

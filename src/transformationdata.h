@@ -18,7 +18,8 @@ enum TransformationType
 {
   SCALING,
   ROTATION,
-  TRANSLATION
+  TRANSLATION,
+  PERSPECTIVE
 };
 
 std::ostream& operator<<(std::ostream &output, const TransformationPoint object);

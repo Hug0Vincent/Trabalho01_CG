@@ -141,7 +141,7 @@ void DrawableObject::apply(Transformation &transformation)
 
 void DrawableObject::updateWindowCoordinates(const Transformation& transformation)
 {
-  LOG(8, "Entering... %s", transformation);
+  LOG(8, "Entering generic updateWindowCoordinates... %s", transformation);
   Coordinate* new_coordinate;
 
   auto coordinates = this->worldCoordinates();
@@ -168,6 +168,7 @@ void DrawableObject::updateClippingCoordinates(const Axes& axes)
    if( !this->_isDrawable )
     {
       LOG(8, "Skip objects which were completely clipped out of the Window");
+      LOG(8, "object coordinates: %s", *this);
     }else{
 
     // auto coordinates = object->windowCoordinates();

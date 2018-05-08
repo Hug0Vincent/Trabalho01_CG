@@ -5,10 +5,11 @@
  *      Author: karla
  */
 
+
 #include "object3D.h"
 
 object3D::object3D(std::string name, std::list<Coordinate*> _worldCoordinates, Coordinate _borderColor, Coordinate _fillingColor) :
-DrawableObject(name, _worldCoordinates, _borderColor, _fillingColor)
+DrawableObject(name, _worldCoordinates, _borderColor, _fillingColor), _cop(0,0,1)
 {
 }
 
@@ -22,6 +23,8 @@ void object3D::updateWindowCoordinates(const Transformation& transformation)
   LOG(8, "Entering... %s", transformation);
   Coordinate* new_coordinate;
 
+  //transformation.add_perspective("Perspective transformation", this->_cop);
+
   auto coordinates = this->worldCoordinates();
   DrawableObject::destroyList(this->_windowCoordinates);
 
@@ -31,6 +34,48 @@ void object3D::updateWindowCoordinates(const Transformation& transformation)
     transformation.apply(*new_coordinate);
     this->_windowCoordinates.push_back(new_coordinate);
   }
+
+
+  Coordinate cop(0,0,1);
+
+  this->projecaoEmPerspective(cop);
+
+}
+
+void object3D::projecaoEmPerspective(const Coordinate& cop)
+{
+
+  LOG(8, "Entering... Projectao em perspective");
+  Coordinate* new_coordinate;
+
+  auto coordinates = this->windowCoordinates();
+  DrawableObject::destroyList(this->_windowCoordinates);
+
+  for(auto coordinate : coordinates)
+  {
+
+    big_double x ;
+    big_double y ;
+    big_double z ;
+    big_double w ;
+
+
+    big_double fx = coordinate->x - ((cop.x/cop.z)*coordinate->z);
+    big_double fy = coordinate->y - ((cop.y/cop.z)*coordinate->z);
+    big_double fz = coordinate->z;
+    big_double fw = ((-coordinate->z / cop.z) + 1);
+
+    x = fx/fw;
+    y = fy/fw;
+    z = fz;
+
+    
+   
+
+    new_coordinate = new Coordinate(x, y, z);
+    this->_windowCoordinates.push_back(new_coordinate);
+  }
+  
 }
 
 

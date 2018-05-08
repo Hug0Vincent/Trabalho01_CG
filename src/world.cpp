@@ -232,11 +232,6 @@ void World::setBSplineParameters(Coordinate p1, Coordinate p2, Coordinate p3, Co
   this->delta_f0 = (a*(pow(DELTA_BSPLINE,3))) + (b*(pow(DELTA_BSPLINE,2))) + (c*DELTA_BSPLINE);
   this->delta_2f0 = (a*6*pow(DELTA_BSPLINE,3)) + (b*2*pow(DELTA_BSPLINE,2)); 
   this->delta_3f0 = a*6*pow(DELTA_BSPLINE,3);
-
-  LOG(4, "F0 -----------: `%s`", this->f0);
-  LOG(4, "delta_f0 -----------: `%s`", this->delta_f0);
-  LOG(4, "delta_2f0 -----------: `%s`", this->delta_2f0);
-  LOG(4, "delta_3f0 -----------: `%s`", this->delta_3f0);
   
 
 }
